@@ -6,9 +6,7 @@ const cookieParser = require("cookie-parser");
 app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT;
-
-const url = `mongodb+srv://${process.env.Mongo_USER}:${process.env.MONGO_PASSWORD}@cluster0.6jqtncq.mongodb.net/test?retryWrites=true&w=majority`;
-
+const url = `mongodb+srv://${process.env.Mongo_USER}:${process.env.MONGO_PASSWORD}@cluster0.6jqtncq.mongodb.net/studentdream?retryWrites=true&w=majority`;
 mongoose.connect(url);
 const conn = mongoose.connection;
 
