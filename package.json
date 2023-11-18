@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test1": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -30,5 +31,8 @@
     "path": "^0.12.7",
     "pg": "^8.11.3",
     "view": "^1.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
