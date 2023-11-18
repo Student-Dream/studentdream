@@ -65,7 +65,6 @@ const getContactMessageByIduser = async (req, res) => {
   }
 };
 
-// في دالة تقوم بجلب رسائل المستخدمين وإرسالها إلى صفحة الأدمن
 const getUserMessages = async (req, res) => {
   try {
     const userMessages = await ContactUs.find({ senderType: "user" });
@@ -75,7 +74,6 @@ const getUserMessages = async (req, res) => {
   }
 };
 
-// في دالة تقوم بجلب رسائل الأدمن وإرسالها إلى صفحة المستخدم
 const getAdminMessages = async (req, res) => {
   try {
     const adminMessages = await ContactUs.find({ senderType: "admin" });
@@ -104,13 +102,12 @@ const getAdminMessages = async (req, res) => {
 // };
 
 const addContactMessage = async (req, res) => {
-  const { name, email, message } = req.body; // استخدم destructuring للحصول على البيانات من الطلب
+  const { name, email, message } = req.body; 
   const userID = req.user._id;
   console.log(userID);
   try {
-    let senderType = "user"; // قم بتعيين قيمة افتراضية أو قم بتحديدها بناءً على سياق التطبيق
+    let senderType = "user"; 
     console.log(req.user.role);
-    // قم بتحديد senderType بناءً على سياق التطبيق
     if (req.user.role === "user") {
       senderType = "user";
     } else {
@@ -121,8 +118,8 @@ const addContactMessage = async (req, res) => {
       name: name,
       email: email,
       message: message,
-      user: userID, // إشارة إلى وثيقة المستخدم
-      senderType: senderType, // تعيين نوع المرسل بناءً على السياق
+      user: userID, 
+      senderType: senderType, 
     });
     console.log(newMessage);
     const savedMessage = await newMessage.save();

@@ -6,14 +6,13 @@ const contactUsSchema = new mongoose.Schema({
   message: { type: String, required: false },
   // user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   // user: { type: Schema.Types.ObjectId, ref: "admin", required: true },
-  senderType: String, // لا تحتاج إلى قيمة افتراضية هنا
+  senderType: String,
 });
 
 contactUsSchema.pre("save", function (next) {
   console.log("😊😊😊😊😊");
   console.log(this.user);
   console.log("😊😊😊😊😊");
-  // التحقق إذا كانت هناك قيمة للحقل user
   // if (this.user) {
   //   this.senderType = "user";
   // } else {
