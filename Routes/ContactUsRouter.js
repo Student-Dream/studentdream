@@ -22,17 +22,17 @@ router.get(
 );
 router.get(
   "/getContactMessageByIduser/:_id",
-  authenticateToken,
+
   contactUsController.getContactMessageByIduser
 );
 router.get(
   "/getContactMessageadmin",
-
+  authenticateToken,
   contactUsController.getUserMessages
 );
 router.get(
   "/getContactMessageByuser",
-
+  authenticateToken,
   contactUsController.getAdminMessages
 );
 

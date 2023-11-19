@@ -3,7 +3,7 @@ const { addContactMessage } = require("../Controller/ContactUsController");
 const ContactUs = require("../Models/contactUsSchema ");
 
 describe("addContactMessage", () => {
-  it("should add a new contact message for a user", async () => {
+  test("should add a new contact message for a user", async () => {
     const req = {
       body: {
         name: "issa",
@@ -24,7 +24,7 @@ describe("addContactMessage", () => {
     newMessageSaveMock.mockResolvedValue({
       name: "issadsw",
       email: "issahaddadhaddad@gmail.com",
-      message: "hi تثسف",
+      message: "hi ",
       user: "65584f4d4a6ff886a9efc38b",
       senderType: "user",
       save: jest.fn(),

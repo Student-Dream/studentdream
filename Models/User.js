@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, required: true },
+  role: { type: String,enum: ['student', 'donor', 'admin'],required: true   },
   phonenumber: { type: String, required: true, unique: true },
 
 });
@@ -23,7 +23,7 @@ userSchema.statics.checkUserExistence = async function (email, username, phonenu
 };
 
 
-userSchema.statics.register = async function (username, email, password, role, phonenumber) {
+userSchema.statics.register = async function (username, email, password,role, phonenumber) {
   
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -32,7 +32,7 @@ userSchema.statics.register = async function (username, email, password, role, p
     username: username,
     email: email,
     password: hashedPassword,
-    role: role,
+    role:role,
     phonenumber: phonenumber
 
   });

@@ -5,7 +5,6 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const cors = require("cors");
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
@@ -39,33 +38,35 @@ const userRoute = require("./Routes/userRoute");
 const requestRoute = require("./Routes/requestRoute");
 const donorrouter = require("./Routes/donor_route");
 const contactUs = require("./Routes/ContactUsRouter");
+const paymentRoute = require("./Routes/paymentRoute");
 
 app.use(userRoute);
 app.use(requestRoute);
 app.use(donorrouter);
 app.use(contactUs);
+app.use(paymentRoute);
 
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
 
-app.get("/", async (req, res) => {
-  try {
-    const adminMessages = await ContactUs.find({ messageType: "admin" });
-    res.render("user", { adminMessages });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// app.get("/", async (req, res) => {
+//   try {
+//     const adminMessages = await ContactUs.find({ messageType: "admin" });
+//     res.render("user", { adminMessages });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
-app.get("/admin", async (req, res) => {
-  try {
-    const userMessages = await ContactUs.find({ messageType: "user" });
-    res.render("admin", { userMessages });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// app.get("/admin", async (req, res) => {
+//   try {
+//     const userMessages = await ContactUs.find({ messageType: "user" });
+//     res.render("admin", { userMessages });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 app.listen(PORT, () => {
   console.log(`Starting server on port ${PORT}`);
 });

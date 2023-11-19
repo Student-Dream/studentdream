@@ -4,7 +4,7 @@ const contactUsSchema = new mongoose.Schema({
   name: { type: String, required: false },
   email: { type: String, required: false },
   message: { type: String, required: false },
-  // user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   // user: { type: Schema.Types.ObjectId, ref: "admin", required: true },
   senderType: String,
 });

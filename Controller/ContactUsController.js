@@ -1,6 +1,7 @@
 // controllers/contactUsController.js
 const ContactUs = require("../Models/contactUsSchema ");
 // In controllers/contactUsController.js
+
 const getAllContactMessages = async (req, res) => {
   try {
     const contactMessages = await ContactUs.find();
@@ -26,44 +27,45 @@ const getContactMessageById = async (req, res) => {
   }
 };
 
-// const getContactMessageByIduser = async (req, res) => {
-//   // const contactId = req.params.id;
-//   const userID = req.user._id;
-
-//   try {
-//     const contactMessage = await ContactUs.find({ user: userID });
-
-//     if (!contactMessage) {
-//       return res.status(404).json({ message: "Contact message not found" });
-//     }
-
-//     res.json(contactMessage);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 const getContactMessageByIduser = async (req, res) => {
-  const userID = req.user._id;
+  // const contactId = req.params.id;
+  const userID = req.params._id;
+  console.log(userID);
 
   try {
-    const contactMessages = await ContactUs.find({ user: userID });
-    //   const userMessages = contactMessages.filter(message => message.senderType === 'user');
-    const adminMessages = contactMessages.filter(
-      (message) => message.senderType === "admin"
-    );
-    if (!contactMessages || contactMessages.length === 0) {
-      return res.render("Contact-us", {
-        contactMessages: [],
-        adminMessages: [],
-      });
+    const contactMessage = await ContactUs.find({ user: userID });
+    console.log(contactMessage);
+    if (!contactMessage) {
+      return res.status(404).json({ message: "Contact message not found" });
     }
 
-    res.render("Contact-us", { contactMessages });
+    res.json(contactMessage);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+// const getContactMessageByIduser = async (req, res) => {
+//   const userID = req.user._id;
+
+//   try {
+//     const contactMessages = await ContactUs.find({ user: userID });
+//     //   const userMessages = contactMessages.filter(message => message.senderType === 'user');
+//     const adminMessages = contactMessages.filter(
+//       (message) => message.senderType === "admin"
+//     );
+//     if (!contactMessages || contactMessages.length === 0) {
+//       return res.render("Contact-us", {
+//         contactMessages: [],
+//         adminMessages: [],
+//       });
+//     }
+
+//     res.render("Contact-us", { contactMessages });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 const getUserMessages = async (req, res) => {
   try {
@@ -102,11 +104,11 @@ const getAdminMessages = async (req, res) => {
 // };
 
 const addContactMessage = async (req, res) => {
-  const { name, email, message } = req.body; 
+  const { name, email, message } = req.body;
   const userID = req.user._id;
   console.log(userID);
   try {
-    let senderType = "user"; 
+    let senderType = "user";
     console.log(req.user.role);
     if (req.user.role === "user") {
       senderType = "user";
@@ -118,8 +120,8 @@ const addContactMessage = async (req, res) => {
       name: name,
       email: email,
       message: message,
-      user: userID, 
-      senderType: senderType, 
+      user: userID,
+      senderType: senderType,
     });
     console.log(newMessage);
     const savedMessage = await newMessage.save();
