@@ -5,7 +5,7 @@ const donationSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   is_deleted: { type: Boolean, default: false },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  status: { type: Number, required: true },
+  status: { type: String, default:"pending", required: true },
 });
 
 const Donation = mongoose.model('Donation', donationSchema);

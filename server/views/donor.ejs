@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Requests</title>
+  </head>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .request-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .request-card {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin: 10px;
+      padding: 15px;
+      max-width: 300px;
+      text-align: left;
+    }
+
+    .request-title {
+      color: #333;
+    }
+
+    .request-info p {
+      margin: 8px 0;
+    }
+
+    form[action^="http://localhost:5000/adddonation/"] {
+      margin-top: 10px;
+    }
+
+    
+  </style>
+  <body>
+    <h1>Create a New Request</h1>
+    <form action="http://localhost:5000/newrequest" method="post" enctype="multipart/form-data">
+      <!-- Add your form fields here -->
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+  
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+  
+      <label for="university_id">University ID:</label>
+      <input type="number" id="university_id" name="university_id" required>
+  
+      <label for="fund">Fund:</label>
+      <input type="number" id="fund" name="fund" required>
+  
+      <label for="file">Upload PDF:</label>
+      <input type="file" id="file" name="file" accept=".pdf" required>
+  
+      <button type="submit">Submit</button>
+    </form>
+
+    <h1>All Requests</h1>
+
+    <% if (requests.length > 0) { %>
+    <ul class="request-list">
+      <% requests.forEach(request => { %>
+      <li class="request-card">
+        <div class="request-info">
+          <!-- Request ID: <%= request._id %><br /> -->
+          <h2 class="request-title">Title: <%= request.title %></h2>
+          <p>Description: <%= request.description %></p>
+          <p>University_id: <%= request.university_id %></p>
+          <p>Fund: <%= request.fund %></p>
+          <p>Username: <%= username %></p>
+          <% if (request.student_proof) { %>
+            <a href="../../client/assets/uploads/<%= request.student_proof %>" target="_blank">View PDF</a>
+          <% } else { %>
+            No PDF attached
+          <% } %>
+        </div>
+        
+        <form
+          action="http://localhost:5000/adddonation/<%= request._id %> "
+          method="post"
+        >
+        <!-- <a href="http://localhost:5000/">    -->
+
+
+
+          <input  type="submit" value="Donate"  />
+
+        </a>
+        </form>
+      </li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+    <p>No requests found.</p>
+    <% } %>
+  </body>
+</html>
