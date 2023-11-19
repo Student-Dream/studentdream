@@ -69,8 +69,9 @@ const getContactMessageByIduser = async (req, res) => {
 
 const getUserMessages = async (req, res) => {
   try {
-    const userMessages = await ContactUs.find({ senderType: "user" });
+    const userMessages = await ContactUs.find({ senderType: "student" });
     res.render("admin", { userMessages });
+    // res.json(userMessages)
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -108,14 +109,14 @@ const addContactMessage = async (req, res) => {
   const userID = req.user._id;
   console.log(userID);
   try {
-    let senderType = "user";
+    let senderType = "student";
     console.log(req.user.role);
-    if (req.user.role === "user") {
-      senderType = "user";
+    if (req.user.role === "student") {
+      senderType = "student";
     } else {
       senderType = "admin";
     }
-    console.log(senderType, req.user.role === "user");
+    console.log(senderType, req.user.role === "student");
     const newMessage = new ContactUs({
       name: name,
       email: email,

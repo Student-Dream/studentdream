@@ -10,10 +10,10 @@ const renderBuyPage = async(req,res)=>{
         
         res.render('buy', {
             key: STRIPE_PUBLISHABLE_KEY,
-            amount:allRequests.fund
+            amount:"850$"
 
-         })
-         console.log(amount);
+        })
+        console.log(amount);
 
     } catch (error) {
         console.log(error.message);
@@ -40,7 +40,7 @@ const payment = async(req,res)=>{
     .then((customer) => {
  
         return stripe.charges.create({
-            amount: req.body.amount,     // amount will be amount*100
+            amount: req.body.amount,     
             description: req.body.productName,
             currency: 'INR',
             customer: customer.id

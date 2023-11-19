@@ -24,9 +24,9 @@ const newrequest = async (req, res) => {
   
   try {
 
-    // if (req.user.role !== 'student') {
-    //   return res.status(403).json({ success: false, error: 'User is not authorized to create a request' });
-    // }
+    if (req.user.role !== 'student') {
+      return res.status(403).json({ success: false, error: 'User is not authorized to create a request' });
+    }
 
     upload(req, res, async function (err) {
       if (err) {
@@ -48,7 +48,8 @@ const newrequest = async (req, res) => {
       });
 
       const request = await newRequest.save();
-      res.json(request);
+      // res.json(request);
+      res.redirect('/allaccepted')
     });
   } catch (error) {
     console.error(error);
@@ -126,6 +127,7 @@ const allaccepted = (req, res) => {
 
   Request.find({ is_deleted: false ,status:"accepted"})
       .then((data) => {
+
         res.render("donor", {
           requests: data,
           // user: req.user,
@@ -144,36 +146,36 @@ const allaccepted = (req, res) => {
 };
 
 
-const createCheckoutSession = async (req, res) => {
-  try {
-    const requestId = req.params.requestId; 
-    const request = await Request.findById(requestId);
+// const createCheckoutSession = async (req, res) => {
+//   try {
+//     const requestId = req.params.requestId; 
+//     const request = await Request.findById(requestId);
 
-    const lineItems = [{
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: request.title,
-        },
-        unit_amount: Math.round(request.fund * 100),
-      },
-    }];
+//     const lineItems = [{
+//       price_data: {
+//         currency: 'usd',
+//         product_data: {
+//           name: request.title,
+//         },
+//         unit_amount: Math.round(request.fund * 100),
+//       },
+//     }];
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
-    });
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ['card'],
+//       line_items: lineItems,
+//       mode: 'payment',
+//       success_url: 'http://localhost:3000/success',
+//       cancel_url: 'http://localhost:3000/cancel',
+//     });
 
-    res.json({ id: session.id });
-    await Request.checkconfirm(request.userId); 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: 'Payment failed' });
-  }
-};
+//     res.json({ id: session.id });
+//     await Request.checkconfirm(request.userId); 
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, error: 'Payment failed' });
+//   }
+// };
 
 
 
@@ -296,6 +298,7 @@ const reject = async (req, res) => {
 }
 };
 
+
 const complete = async (req, res) => {
   try {
 
@@ -315,6 +318,7 @@ const complete = async (req, res) => {
 } catch (error) {
     res.status(500).json({ error: 'Failed to delete Request' });
 }
+
 };
 
 
@@ -357,5 +361,5 @@ module.exports = {
   accept,
   allaccepted,
   allRequests,
-  createCheckoutSession
+  //createCheckoutSession
 };

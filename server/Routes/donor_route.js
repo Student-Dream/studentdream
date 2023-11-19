@@ -6,12 +6,13 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 
 router.post("/adddonation/:id", donorcontroller.addDonation);
 router.post("/checkout/:id", donorcontroller.createCheckoutSession);
-router.get("/getalldonation",authenticateToken, donorcontroller.getDonation);
+// router.get("/getalldonation",authenticateToken, donorcontroller.getDonation);
 router.get("/gethistory", authenticateToken, donorcontroller.getHistory);
 router.post("/addhistory/:id", authenticateToken, donorcontroller.postHistory);
-router.get("/countdonations", authenticateToken,donorcontroller.countDonations);
+router.get("/countdonations",donorcontroller.countDonations);
 router.get("/frequencydonor", authenticateToken,donorcontroller.donorFrequency);
-router.put("/deletedonation/:id",authenticateToken, donorcontroller.deletedonation);
+router.get("/un", authenticateToken,donorcontroller.unFrequency);
+// router.put("/deletedonation/:id",authenticateToken, donorcontroller.deletedonation);
 //router.put("/updatedonation/:id", authenticateToken,donorcontroller.updatedonation);
 
 
