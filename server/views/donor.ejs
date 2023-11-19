@@ -101,6 +101,10 @@
   
       <label for="description">Description:</label>
       <textarea id="description" name="description" required></textarea>
+
+
+      <label for="university_name">university_name:</label>
+      <textarea id="university_name" name="university_name" required></textarea>
   
       <label for="university_id">University ID:</label>
       <input type="number" id="university_id" name="university_id" required>
@@ -108,7 +112,7 @@
       <label for="fund">Fund:</label>
       <input type="number" id="fund" name="fund" required>
   
-      <label for="file">Upload PDF:</label>
+      <label for="file">Upload your student proof:</label>
       <input type="file" id="file" name="file" accept=".pdf" required>
   
       <button type="submit">Submit</button>
@@ -126,9 +130,9 @@
           <p>Description: <%= request.description %></p>
           <p>University_id: <%= request.university_id %></p>
           <p>Fund: <%= request.fund %></p>
-          <p>Username: <%= username %></p>
+         
           <% if (request.student_proof) { %>
-            <a href="../../client/assets/uploads/<%= request.student_proof %>" target="_blank">View PDF</a>
+            <a href="../../client/assets/uploads/<%= request.student_proof %>" target="_blank">Student Proof</a>
           <% } else { %>
             No PDF attached
           <% } %>

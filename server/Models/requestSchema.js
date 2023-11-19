@@ -4,6 +4,7 @@ const requestSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  university_name : {type: String,required:true},
   university_id: { type: Number, required: true },
   student_proof: { type: String, required: true },
   fund: { type: Number, required: true },

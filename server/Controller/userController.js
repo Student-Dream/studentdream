@@ -232,60 +232,23 @@ const register = async (req, res) => {
 //   }
 // };
 
-// const login = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const user = await User.login(email);
-//     if (!user || user === "Email is not found") {
-//       return res
-//         .status(401)
-//         .json({ success: false, message: "Invalid email or password" });
-//     }
-
-//     const isPasswordValid = await bcrypt.compare(password, user.password);
-
-//     if (!isPasswordValid) {
-//       return res
-//         .status(401)
-//         .json({ success: false, message: "Invalid email or password" });
-//     }
-
-//     const token = jwt.sign(
-//       { userId: user._id, email: user.email, role: user.role },
-//       process.env.SECRET_KEY,
-//       { expiresIn: "4h" }
-//     );
-//     res.render("login", {
-//         success: true,
-//         message: "Successfully signed in",
-//         user,
-//         token,
-//       });
-//     res.cookie("token", token, { httpOnly: true });
-
-//     // res.status(200).json({ success: true, message: 'Successfully signed in', user,token });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false, message: "Internal server error" });
-//   }
-// };
-
 const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.login(email);
     if (!user || user === "Email is not found") {
-      const errorMessage = "Invalid email or password";
-      return res.status(401).render("login", { errorMessage });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      const errorMessage = "Invalid email or password";
-      return res.status(401).render("login", { errorMessage });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
     }
 
     const token = jwt.sign(
@@ -293,15 +256,52 @@ const login = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: "4h" }
     );
+    // res.render("login", {
+    //     success: true,
+    //     message: "Successfully signed in",
+    //     user,
+    //     token,
+    //   });
     res.cookie("token", token, { httpOnly: true });
-    // res.render("login", { successMessage: "Login successful" });
-    res.redirect("http://localhost:5000/login");
-    console.log("Login successful");
+
+    res.status(200).json({ success: true, message: 'Successfully signed in', user,token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+// const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     const user = await User.login(email);
+//     if (!user || user === "Email is not found") {
+//       const errorMessage = "Invalid email or password";
+//       return res.status(401).render("login", { errorMessage });
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+//     if (!isPasswordValid) {
+//       const errorMessage = "Invalid email or password";
+//       return res.status(401).render("login", { errorMessage });
+//     }
+
+//     const token = jwt.sign(
+//       { userId: user._id, email: user.email, role: user.role },
+//       process.env.SECRET_KEY,
+//       { expiresIn: "4h" }
+//     );
+//     res.cookie("token", token, { httpOnly: true });
+//     // res.render("login", { successMessage: "Login successful" });
+//     res.redirect("http://localhost:5000/allaccepted");
+//     console.log("Login successful");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
 const logins = async (req, res) => {
   const { email, password } = req.body;
 

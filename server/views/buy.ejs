@@ -3,19 +3,34 @@
 <title>Stripe Payment Demo</title>
 <body>
 	<h3>Buy Shirt Just in Rs <%= amount %></h3>
-	<form action="payment" method="POST">
-    <input type="hidden" name="amount" value="<%= parseInt(amount)*100 %>">
-    <input type="hidden" name="productName" value="Shocks">
-	<script
-		src="//checkout.stripe.com/v2/checkout.js"
-		class="stripe-button"
-		data-key="<%= key %>"
-		data-amount="<%= parseInt(amount)*100 %>"
-		data-currency="inr"
-		data-name="Shirt"
-		data-description="Cotton Shirt Products"
-		data-locale="auto" >
-		</script>
-	</form>
+	<form id="payment-form" action="/adddonation/<%= request._id %>" method="post">
+		<div class="request-info">
+		  <h2 class="request-title">Title: <%= request.title %></h2>
+		  <p>Description: <%= request.description %></p>
+		  <p>University_id: <%= request.university_id %></p>
+		  <p>Fund: <%= request.fund %></p>
+		  <p>Username: <%= request.user %></p>
+		  <% if (request.student_proof) { %>
+			<a href="../../client/assets/uploads/<%= request.student_proof %>" target="_blank">View PDF</a>
+		  <% } else { %>
+			No PDF attached
+		  <% } %>
+	  
+		  <!-- Add a hidden input field to store the request ID -->
+		  <input type="hidden" name="requestId" value="<%= request._id %>" />
+	  
+		  <!-- Donation amount input (you can customize this part) -->
+		  <label for="amount">Donation Amount:</label>
+		  <input type="number" name="amount" required />
+	  
+		  <!-- Stripe Elements placeholder -->
+		  <div id="card-element"></div>
+	  
+		  <!-- Used to display form errors. -->
+		  <div id="card-errors" role="alert"></div>
+	  
+		  <button type="submit">Submit Payment</button>
+		</div>
+	  </form>
 </body>
 </html>

@@ -8,7 +8,7 @@ router.get("/register", userController.register);
 
 // ___________________________________________________🤣Login🤣___________________________________________________________
 router.get("/login", userController.login);
-router.post("/logins", userController.login);
+router.post("/login", userController.login);
 
 
 

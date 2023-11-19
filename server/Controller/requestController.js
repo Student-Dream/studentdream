@@ -41,6 +41,7 @@ const newrequest = async (req, res) => {
         title: formData.title,
         description: formData.description,
         university_id: formData.university_id,
+        university_name: formData.university_name,
         fund: formData.fund,
         user: userID,
         student_proof: file,
@@ -59,21 +60,29 @@ const myRequests = (req, res) => {
   if (req.user.role !== 'student') {
     return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
   }
-  const userID = req.user._id; 
-  Request.find({ is_deleted: false,user:userID})
-      .then((data) => {
-          res.json(data);
-      })
-      .catch((error) => {
-          errorHandler(error, req, res);
-      });
+
+  const userID = req.user._id;
+  const page = parseInt(req.query.page) || 1; 
+  const limit = parseInt(req.query.limit) || 10; 
+
+  const skip = (page - 1) * limit;
+
+  Request.find({ is_deleted: false, user: userID })
+    .skip(skip)
+    .limit(limit)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      errorHandler(error, req, res);
+    });
 };
 
 
 
 const allRequests = (req, res) => {
  
-  Request.find({ is_deleted: false ,status:"accepted"})
+  Request.find({ is_deleted: false })
       .then((data) => {
         res.render("donor", {
           requests: data,
@@ -114,19 +123,23 @@ const allRequests = (req, res) => {
 
 
 const allaccepted = (req, res) => {
-  if (req.user.role !== 'donor' || req.user.role !== 'admin') {
-    return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
-  }
+
   Request.find({ is_deleted: false ,status:"accepted"})
       .then((data) => {
         res.render("donor", {
           requests: data,
-          user: req.user,
-          username: req.user.username
+          // user: req.user,
+          // $lookup:
+          // {
+          //    from: "User",
+          //    localField: "userid",
+          //    foreignField: "user",
+          //    as: "inventoryDocs"
+          // }
         });
       })
       .catch((error) => {
-          errorHandler(error, req, res);
+          console.log(error);
       });
 };
 
@@ -179,7 +192,7 @@ const pendingRequests = (req, res) => {
 };
 
 
-const acceptedRequests = (req, res) => {
+const myacceptedRequests = (req, res) => {
   if (req.user.role !== 'student') {
     return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
   }
@@ -193,7 +206,7 @@ const acceptedRequests = (req, res) => {
       });
 };
 
-const rejectedRequests = (req, res) => {
+const myrejectedRequests = (req, res) => {
   if (req.user.role !== 'student') {
     return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
   }
@@ -237,7 +250,7 @@ const updateRequest = async (req, res) => {
   }
 };
 
-const updateaccepted = async (req, res) => {
+const accept = async (req, res) => {
   try {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
@@ -260,7 +273,7 @@ const updateaccepted = async (req, res) => {
 }
 };
 
-const updatereject = async (req, res) => {
+const reject = async (req, res) => {
   try {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
@@ -270,6 +283,27 @@ const updatereject = async (req, res) => {
     
     const userID = req.user._id; 
     updatedRequestData.status = 'rejected';
+
+    const request = await Request.findByIdAndUpdate(requestId, updatedRequestData, {
+        user: userID
+    });
+
+    const updatedRequest = await request.save();
+
+    res.json(updatedRequest);
+} catch (error) {
+    res.status(500).json({ error: 'Failed to delete Request' });
+}
+};
+
+const complete = async (req, res) => {
+  try {
+
+    const requestId = req.params.id;
+    const updatedRequestData = req.body;
+    
+    const userID = req.user._id; 
+    updatedRequestData.status = 'completed';
 
     const request = await Request.findByIdAndUpdate(requestId, updatedRequestData, {
         user: userID
@@ -315,14 +349,13 @@ module.exports = {
   newrequest,
   myRequests,
   pendingRequests,
-  acceptedRequests,
-  rejectedRequests,
+  myacceptedRequests,
+  myrejectedRequests,
   updateRequest,
   deleteRequest,
-  updatereject,
-  updateaccepted,
+  reject,
+  accept,
   allaccepted,
-  //allrejected,
   allRequests,
   createCheckoutSession
 };

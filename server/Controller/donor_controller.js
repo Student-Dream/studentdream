@@ -7,11 +7,11 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 exports.addDonation = async (req, res) => {
   try {
     const requestId = req.params.id;
-    const userID = req.user._id; 
+ 
    
     const newdonor = new Donation({
       request: requestId,
-      user:userID
+  
     });
 
     
@@ -103,9 +103,6 @@ exports.getHistory = async (req, res) => {
 
 exports.postHistory = async (req, res) => {
   try {
-    if (req.user.role !== 'donor') {
-      return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
-    }
     const dontaionID = req.params.id
     const newhistory = new History({
       donation:dontaionID,
@@ -200,51 +197,6 @@ exports.deletedonation = async (req, res) => {
 // };
 
 
-exports.acceptedonation = async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
-    }
-    const donationId = req.params.id;
-    const updatedRequestData = req.body;
-    
-    const userID = req.user._id; 
-    updatedRequestData.status = 'Accepted';
-
-    const donation = await Donation.findByIdAndUpdate(donationId, updatedRequestData, {
-        user: userID
-    });
-
-    const updatedRequest = await donation.save();
-
-    res.json(updatedRequest);
-} catch (error) {
-    res.status(500).json({ error: 'Failed to delete Request' });
-}
-};
-
-exports.rejectdonation = async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
-    }
-    const requestId = req.params.id;
-    const updatedRequestData = req.body;
-    
-    const userID = req.user._id; 
-    updatedRequestData.status = 'rejected';
-
-    const donation = await Donation.findByIdAndUpdate(requestId, updatedRequestData, {
-        user: userID
-    });
-
-    const updatedRequest = await donation.save();
-
-    res.json(updatedRequest);
-} catch (error) {
-    res.status(500).json({ error: 'Failed to delete Request' });
-}
-};
 
 
 

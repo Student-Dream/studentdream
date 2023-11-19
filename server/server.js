@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 app.set('view engine', 'ejs');
 const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT;
