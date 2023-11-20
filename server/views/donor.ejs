@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Requests</title>
-    <style>
+    <!-- <style>
+
+
       body {
         font-family: 'Arial', sans-serif;
         margin: 0;
@@ -161,7 +163,178 @@
         text-align: center;
         padding: 1rem 0;
       }
-    </style>
+    </style> -->
+  
+  <style>
+       body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        text-align: center;
+      }
+  
+      header {
+        background-color: #3498db;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      nav li {
+        display: inline-block;
+        margin-right: 20px;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        font-size: 18px;
+        transition: color 0.3s ease;
+      }
+
+      nav a:hover {
+        color: #ffd700;
+      }
+
+      h1, h2 {
+        color: #3498db;
+      }
+
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        max-width: 400px;
+        margin: auto;
+        transition: transform 0.3s ease;
+      }
+
+      form:hover {
+        transform: scale(1.02);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .request-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+
+      .request-card {
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin: 10px;
+        padding: 15px;
+        width: 400px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .request-card:hover {
+        transform: scale(1.02);
+      }
+
+      .request-title {
+        color: #333;
+        text-align: center;
+      }
+
+      .request-info p {
+        margin: 8px 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      form[action^="http://localhost:5000/adddonation/"] {
+        margin-top: 10px;
+      }
+
+      main {
+        flex: 1;
+        margin: 20px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      li:hover {
+        transform: scale(1.02);
+      }
+
+      footer {
+        background-color: #3498db;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+      }
+    
+  </style>
   </head>
   
   <body>
@@ -185,7 +358,15 @@
 
 
       <label for="university_name">university_name:</label>
-      <textarea id="university_name" name="university_name" required></textarea>
+      <select id="university_name" name="university_name" required>
+        <option value="The Hashemite University">The Hashemite University</option>
+        <option value="University of Jordan">University of Jordan</option>
+        <option value="Jordan University of Science & Technology ">Jordan University of Science & Technology </option>
+        <option value="Al-Albayt University">Al-Albayt University</option>
+        <option value="Yarmouk University">Yarmouk University</option>
+        <option value="University in Mutah">University in Mu'tah</option>
+        <option value="AlBalqa Applied University">AlBalqa Applied University</option>
+      </select>
   
       <label for="university_id">University ID:</label>
       <input type="number" id="university_id" name="university_id" required>
@@ -211,12 +392,12 @@
           <p>Description: <%= request.description %></p>
           <p>University_id: <%= request.university_id %></p>
           <p>Fund: <%= request.fund %></p>
-         
-          <% if (request.student_proof) { %>
+        
+          <!-- <% if (request.student_proof) { %>
             <a href="../../client/assets/uploads/<%= request.student_proof %>" target="_blank">Student Proof</a>
           <% } else { %>
             No PDF attached
-          <% } %>
+          <% } %> -->
         </div>
         
         <form
