@@ -4,24 +4,33 @@ const History = require("../Models/historySchema ");
 const Request = require("../Models/requestSchema");
 const User = require("../Models/User");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
+
+
 exports.addDonation = async (req, res) => {
   try {
     const requestId = req.params.id;
- 
-   
-    const newdonor = new Donation({
+    const formData = req.body;
+
+    if (!formData.fund) {
+      return res.status(400).json({ error: "Missing 'fund' in request body" });
+    }
+
+    const newDonation = new Donation({
       request: requestId,
-  
+      fund: formData.fund
     });
 
-    
-    await newdonor.save();
-    // res
-      // .status(201)
-      // .json({ message: "New donation has been stored", donor: newdonor });
-      res.redirect('http://localhost:5000/')
+    await newDonation.save();
+
+    // Redirect if needed
+    // res.redirect('http://localhost:5000/');
+
+    // Send a success response
+    res.status(201).json({ message: "New donation has been stored", donation: newDonation });
   } catch (error) {
     console.error("Error adding donation:", error);
+
+   
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -39,7 +48,7 @@ exports.createCheckoutSession = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Request not found' });
     }
 
-    const unitAmount = Math.round(parseFloat(requestDocument.fund) * 100);
+    const unitAmount = Math.round(parseFloat(donation.fund) * 100);
     const lineItems = [{
       price_data: {
         currency: 'usd',
@@ -61,7 +70,7 @@ exports.createCheckoutSession = async (req, res) => {
 
     res.json({ id: session.id });
     
-    // await Request.checkconfirm(donation.userId);
+     await Request.checkconfirm(donation.userId);
 
   } catch (error) {
     console.error(error);
@@ -123,6 +132,9 @@ exports.postHistory = async (req, res) => {
 
 exports.countDonations = async (req, res) => {
   try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
+    }
     const donationCount = await Donation.countDocuments();
     res.json({ count: donationCount });
   } catch (error) {
@@ -135,6 +147,9 @@ exports.countDonations = async (req, res) => {
 
 exports.donorFrequency = async (req, res) => {
   try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, error: 'User is not authorized to view requests' });
+    }
     const donorFrequency = await Donation.aggregate([
       {
         $group: {
@@ -157,14 +172,14 @@ exports.unFrequency = async (req, res) => {
     const unFrequency = await Donation.aggregate([
       {
         $group: {
-          _id: "$request.univirsity_name",
+          _id: "$university_name",  
           count: { $sum: 1 },
         },
       },
     ]);
     res.json({ unFrequency });
   } catch (error) {
-    console.error("Error getting donor frequency:", error);
+    console.error("Error getting univeristy donation frequency:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
