@@ -1,0 +1,184 @@
+<!-- contact-us.ejs
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      nav li {
+        display: inline-block;
+        margin-right: 20px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        font-size: 18px;
+        transition: color 0.3s ease;
+      }
+
+      nav a:hover {
+        color: #ffd700; /* Change the color on hover */
+      }
+
+      main {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #333;
+        color: #fff;
+      }
+
+      footer p {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/contact-us">Contact Us</a></li>
+          <!-- Add more navigation items as needed -->
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- <% if (contactMessages.length > 0) { %>
+      <ul>
+        <% contactMessages.forEach(contactMessages => { %>
+        <li>
+          <strong>Name:</strong> <%= contactMessages.name %><br />
+          <strong>Email:</strong> <%= contactMessages.email %><br />
+          <strong>Message:</strong> <%= contactMessages.message %>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <p>No contact messages available.</p>
+      <% } %> -->
+
+      <% if (adminMessages && adminMessages.length > 0) { %>
+      <h2>Admin Messages</h2>
+      <ul>
+        <% adminMessages.forEach(message => { %>
+        <li>
+          <strong>Name:</strong> <%= message.name %><br />
+          <strong>Email:</strong> <%= message.email %><br />
+          <strong>Message:</strong> <%= message.message %>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <p>No admin messages available.</p>
+      <% } %>
+
+      <h2>Add New Message</h2>
+
+      <form
+        id="contactForm"
+        action="/contact-uss/6558170789ff99bcf6e7d597"
+        method="post"
+      >
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2023 Your Company. All rights reserved.</p>
+      <!-- Add more footer content as needed -->
+    </footer>
+  </body>
+</html> -->
